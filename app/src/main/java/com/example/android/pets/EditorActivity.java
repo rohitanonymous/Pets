@@ -17,6 +17,7 @@ package com.example.android.pets;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -126,11 +127,14 @@ public class EditorActivity extends AppCompatActivity {
         values.put(PetEntry.COLUMN_PET_GENDER,mGender);
         values.put(PetEntry.COLUMN_PET_WEIGHT,weight);
 
-        long newRowId=db.insert(PetEntry.TABLE_NAME,null,values);
-        if(newRowId==-1)
-            Toast.makeText(this,"Errot with saving pett",Toast.LENGTH_SHORT).show();
+        //long newRowId=db.insert(PetEntry.TABLE_NAME,null,values);
+
+        Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
+
+        if(newUri==null)
+            Toast.makeText(this,R.string.editor_insert_pet_failed,Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this,"New Row ID"+newRowId,Toast.LENGTH_LONG).show();
+            Toast.makeText(this,R.string.editor_insert_pet_successful,Toast.LENGTH_LONG).show();
 
     }
 
